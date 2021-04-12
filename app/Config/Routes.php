@@ -21,7 +21,9 @@ $routes->setDefaultNamespace('App\Controllers');
 $routes->setDefaultController('Home');
 $routes->setDefaultMethod('index');
 $routes->setTranslateURIDashes(false);
-$routes->set404Override();
+$routes->set404Override(function() {
+    echo view('welcome_view');
+});
 $routes->setAutoRoute(true);
 
 /*
@@ -33,7 +35,11 @@ $routes->setAutoRoute(true);
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
 $routes->get('/', 'Home::index');
-
+$routes->get('products', 'Products::index');
+$routes->get('products/(:segment)', 'Products::itemInfo/$1');
+$routes->post('products', 'Products::createItem');
+$routes->put('products/(:segment)', 'Products::updateItem/$1');
+$routes->delete('products/(:segment)', 'Products::removeItem/$1');
 /*
  * --------------------------------------------------------------------
  * Additional Routing
